@@ -1,0 +1,62 @@
+#ifndef BINARY_HEAP_HPP
+#define BINARY_HEAP_HPP
+
+#include <cstddef>
+#include <ostream>
+#include <string>
+#include "../../external/mutable_array_sequence.h"
+#include "../tools/Comparator.hpp"
+#include "../tools/TreePrinter.hpp"
+
+template <typename T>
+class BinaryHeap {
+public:
+    using Comparator = int (*)(const T&, const T&);
+    using Transform = T (*)(const T&);
+    using Predicate = bool (*)(const T&);
+    using StringConverter = std::string (*)(const T&);
+private:
+    mutable_array_sequence<T> items;
+    std::size_t size;
+    Comparator compare;
+
+    void swap_items(std::size_t first, std::size_t second);
+    void sift_up(std::size_t index);
+    void sift_down(std::size_t index);
+
+    std::size_t find_index(const T& value) const;
+    bool same_nodes(std::size_t index, const BinaryHeap& subtree, std::size_t subtree_index) const;
+
+public:
+    BinaryHeap(Comparator compare = default_compare<T>);
+    BinaryHeap(T* array, std::size_t count, Comparator compare = default_compare);
+    ~BinaryHeap();
+
+    BinaryHeap(const BinaryHeap& other);
+    BinaryHeap& operator=(const BinaryHeap& other);
+    BinaryHeap(BinaryHeap&& other);
+    BinaryHeap& operator=(BinaryHeap&& other);
+
+    void add(const T& value);
+    void remove(const T& value);
+    T& get(const T& value);
+    const T& get(const T& value) const;
+    BinaryHeap* get_subtree(const T& root_value) const;
+    const T& top() const;
+    T extract_top();
+
+    bool contains(const T& value) const;
+    bool contains_subtree(const BinaryHeap& subtree) const;
+
+    std::size_t get_size() const;
+    bool is_empty() const;
+    void clear();
+    BinaryHeap* copy() const;
+    BinaryHeap map(Transform transform) const;
+    BinaryHeap where(Predicate predicate) const;
+    void print_structure(std::ostream& out, StringConverter converter, std::size_t max_depth = 3) const;
+};
+
+#include "../../src/BinaryHeap/BinaryHeap.tpp"
+
+#endif // BINARY_HEAP_HPP

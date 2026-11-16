@@ -1,6 +1,0 @@
-[submodule "TreeStructures"]
-	path = TreeStructures
-	url = https://github.com/Damir-study/TreeStructures.git
-[submodule "sequence"]
-	path = sequence
-	url = https://github.com/Damir-study/sequence

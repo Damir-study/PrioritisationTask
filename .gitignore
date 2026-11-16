@@ -1,4 +1,8 @@
 *.pdf
+*.o
+*.exe
+*.a
+.DS_Store
 /prioritization_tests
 /benchmark_results/
 /build/
